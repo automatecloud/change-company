@@ -7,5 +7,8 @@ configure the variable LW_PROFILE with your profile configured in the lacework c
 The current script updates a company name for a user account email.
 
 You need to run it with the parameters email and new company name:
-Usage: ./changecompany.sh email companyname
+Usage: ./changecompany.sh test.user@company.com MyCompany
+
+If you want to specify a company name with spaces you need to quote the second parameter:
+Usage: ./changecompany.sh test.user@company.com "My Test Company"
 ## Updates
