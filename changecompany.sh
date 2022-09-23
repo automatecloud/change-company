@@ -27,8 +27,11 @@ getuserdetails=$(lacework api post api/v2/TeamMembers/search -d '{ "filters" : [
 lengthofuserdetails=$(echo $getuserdetails | jq 'length')
 if [ $lengthofuserdetails -eq 0 ]; then echo "User with that email not found inside the Lacework environment"; exit 1; else echo "User found inside the Lacework environment"; fi
 echo "Getting the userGuid for ${EMAIL}..."
+echo $getuserdetails
 userguid=$(echo $getuserdetails | jq -r '.data[].userGuid')
+usertype=$(echo $getuserdetails | jq -r '.data[].props.accountAdmin')
 echo "The userGuid is $userguid"
+echo "The user type is $usertype"
 echo "Updating the Company to ${COMPANY}..."
-echo lacework api patch api/v2/TeamMembers/$userguid -d '{ "props": { "company" : "Test it" } }'
-lacework api patch api/v2/TeamMembers/$userguid -d "{ \"props\": { \"company\" : \"$COMPANY\" } }"
+echo lacework api patch api/v2/TeamMembers/$userguid -d '{ "props": { "company" : "'$COMPANY'", "accountAdmin": "'$usertype'"  } }'
+lacework api patch api/v2/TeamMembers/$userguid -d "{ \"props\": { \"company\" : \"$COMPANY\", \"accountAdmin\": \"$usertype\"  } }"
