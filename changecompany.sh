@@ -1,7 +1,5 @@
 #!/bin/bash
 
-LW_PROFILE=default
-
 usage() { echo "Usage: ./changecompany.sh email companyname" 1>&2; exit 1; }
 
 if [ -z $1 ]
@@ -20,8 +18,7 @@ if [ -z $2 ]
     COMPANY=$2
 fi
 
-export LW_PROFILE=$LW_PROFILE
-echo "Change company for user email ${EMAIL} to ${COMPANY} (v0.2)"
+echo "Change company for user email ${EMAIL} to ${COMPANY} (v0.3)"
 echo "Try to find the user details for the email ${EMAIL}..."
 getuserdetails=$(lacework api post api/v2/TeamMembers/search -d '{ "filters" : [ { "expression": "eq", "field": "userName", "value": "'$EMAIL'" } ] }')
 lengthofuserdetails=$(echo $getuserdetails | jq 'length')
